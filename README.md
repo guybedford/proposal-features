@@ -30,6 +30,8 @@ await import('./mod.js', { with: { features: ['name'] } })
 
 This import attribute is **non-keying** in the sense that the module has a single instance in the module registry, regardless of the features attribute value. It is effectively removed entirely from the canonical attributes list used in keying.
 
+The default import mode without features specified is for all features to be disabled by default.
+
 The enabled feature set for a module is the union of all features requested by its static importers. This set is frozen before any module executes.
 
 ```js
@@ -78,6 +80,14 @@ export class App {
     return Router.push(path);
   } when feature.routing
 }
+```
+
+### Feature reexports
+
+Feature reexports can be used to replicate deferred reexports style functionality:
+
+```js
+export { foo } from './foo.js' when feature.foo
 ```
 
 ### Semantics
