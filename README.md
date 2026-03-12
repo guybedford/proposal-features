@@ -46,6 +46,10 @@ Both a.js and b.js receive the same App. The module ui.js is evaluated with both
 
 Once the module is loaded it cannot be loaded with new features later on as it has already been loaded.
 
+That is, loading an already-loaded module with a feature not already loaded is an error.
+
+To enable backwards-compatible feature additions, loading a module with a feature that does not exist in that module is not an error.
+
 ### Feature guards
 
 A new feature guard static syntax is supported - via a `when <name>` **strawman syntax for now**. The features provided by a given module are the union of these static guard names.
