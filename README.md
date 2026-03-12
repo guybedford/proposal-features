@@ -52,7 +52,7 @@ To enable backwards-compatible feature additions, loading a module with a featur
 
 ### Feature guards
 
-A new feature guard static syntax is supported - via a `when <name>` **strawman syntax for now**. The features provided by a given module are the union of these static guard names.
+A new feature guard static syntax is supported - via a `when!(<name>)` **strawman syntax for now**. The features provided by a given module are the union of these static guard names.
 
 Guards apply to static imports, static exports and blocks.
 
@@ -65,33 +65,41 @@ import { render } from './core.js'
 
 // conditional import binding that only applies when a feature is enabled.
 // binding is not even defined when the feature guard is disabled
-import { hydrate } from './ssr.js' when ssr
-import { Router } from './router.js' when routing
+import { hydrate } from './ssr.js' when!(ssr)
+import { Router } from './router.js' when!(routing)
 
 export { render }
 
 // export binding is omitted when the feature is disabled
-export { hydrate } when ssr
+export { hydrate } when!(ssr)
 
 export class App {
   render() { /* ... */ }
 
   hydrate() {
     return hydrate(this);
-  } when ssr
+  } when!(ssr & routing)
 
   navigate(path) {
     return Router.push(path);
-  } when routing
+  } when!(routing)
 }
 ```
+
+### Feature arithmetic
+
+Features support basic unions (|), intersections (&), negations (~) and grouping, using the binary operator precedence.
+
+For example, `when!(a & ~(b | c))` is a valid feature expression.
+
+No other operators or expression syntax is suported, ensuring that these are link time computable.
 
 ### Feature reexports
 
 Feature reexports can be used to replicate deferred reexports style functionality:
 
 ```js
-export { foo } from './foo.js' when foo
+export { foo } from './foo.js' when!(foo)
 ```
 
 ### Auto features
@@ -104,20 +112,20 @@ Example:
 
 module.js
 ```js
-export { bar } from './bar.js' when featureA
+export { bar } from './bar.js' when!(featureA)
 
 export function foo () {
 
-} when featureB
+} when!(featureB)
 
 
 {
     console.log('featureA enabled');
-} when featureA
+} when!(featureA)
 
 {
     console.log('featureB enabled');
-} when featureA
+} when!(featureA)
 ```
 
 Usage:
