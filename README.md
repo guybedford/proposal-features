@@ -56,20 +56,20 @@ Example:
 
 module.js
 ```js
-export { bar } from './bar.js' when feature.A
+export { bar } from './bar.js' when featureA
 
 export function foo () {
 
-} when feature.featureB
+} when featureB
 
 
 {
     console.log('featureA enabled');
-} when feature.featureA
+} when featureA
 
 {
     console.log('featureB enabled');
-} when feature.featureA
+} when featureA
 ```
 
 Usage:
@@ -86,7 +86,7 @@ This way, it is possible to add features to existing libraries supporting featur
 
 ### Feature guards
 
-A new feature guard static syntax is supported - `when feature.<name>`. The features provided by a given module are the union of these static guard names.
+A new feature guard static syntax is supported - `when <name>`. The features provided by a given module are the union of these static guard names.
 
 Guards apply to static imports, static exports and blocks.
 
@@ -99,24 +99,24 @@ import { render } from './core.js'
 
 // conditional import binding that only applies when a feature is enabled.
 // binding is not even defined when the feature guard is disabled
-import { hydrate } from './ssr.js' when feature.ssr
-import { Router } from './router.js' when feature.routing
+import { hydrate } from './ssr.js' when ssr
+import { Router } from './router.js' when routing
 
 export { render }
 
 // export binding is omitted when the feature is disabled
-export { hydrate } when feature.ssr
+export { hydrate } when ssr
 
 export class App {
   render() { /* ... */ }
 
   hydrate() {
     return hydrate(this);
-  } when feature.ssr
+  } when ssr
 
   navigate(path) {
     return Router.push(path);
-  } when feature.routing
+  } when routing
 }
 ```
 
@@ -125,7 +125,7 @@ export class App {
 Feature reexports can be used to replicate deferred reexports style functionality:
 
 ```js
-export { foo } from './foo.js' when feature.foo
+export { foo } from './foo.js' when foo
 ```
 
 ### Semantics
@@ -134,7 +134,7 @@ export { foo } from './foo.js' when feature.foo
 * Disabled exports: The export name is present in the module's export list. Its value is undefined.
 * Disabled class elements: The method or field is not defined on the prototype or instance.
 * Disabled when blocks: The block is skipped during evaluation.
-* Feature names are module-scoped. feature.x on module A and feature.x on module B are independent.
+* Feature names are module-scoped. feature x on module A and feature x on module B are independent.
 * Feature sets are static. They are resolved from the union of static importers before evaluation and cannot change.
 
 ## FAQ
