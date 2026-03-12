@@ -46,44 +46,6 @@ Both a.js and b.js receive the same App. The module ui.js is evaluated with both
 
 Once the module is loaded it cannot be loaded with new features later on as it has already been loaded.
 
-### Auto features
-
-Features guarding export statements can be considered "auto features" which automatically enable whenever importing that name explicitly.
-
-This way, the `features` attribute can be optional for those features.
-
-Example:
-
-module.js
-```js
-export { bar } from './bar.js' when featureA
-
-export function foo () {
-
-} when featureB
-
-
-{
-    console.log('featureA enabled');
-} when featureA
-
-{
-    console.log('featureB enabled');
-} when featureA
-```
-
-Usage:
-
-```js
-import { foo } from './module.js';
-```
-
-By importing `foo`, it is clear that the `featureB` feature must be enabled by the declaration, therefore it is auto-enabled.
-
-As a result, `'featureA enabled'` is logged when executing the module.
-
-This way, it is possible to add features to existing libraries supporting feature guards based on import choice.
-
 ### Feature guards
 
 A new feature guard static syntax is supported - `when <name>`. The features provided by a given module are the union of these static guard names.
@@ -127,6 +89,44 @@ Feature reexports can be used to replicate deferred reexports style functionalit
 ```js
 export { foo } from './foo.js' when foo
 ```
+
+### Auto features
+
+Features guarding export statements can be considered "auto features" which automatically enable whenever importing that name explicitly.
+
+This way, the `features` attribute can be optional for those features.
+
+Example:
+
+module.js
+```js
+export { bar } from './bar.js' when featureA
+
+export function foo () {
+
+} when featureB
+
+
+{
+    console.log('featureA enabled');
+} when featureA
+
+{
+    console.log('featureB enabled');
+} when featureA
+```
+
+Usage:
+
+```js
+import { foo } from './module.js';
+```
+
+By importing `foo`, it is clear that the `featureB` feature must be enabled by the declaration, therefore it is auto-enabled.
+
+As a result, `'featureA enabled'` is logged when executing the module.
+
+This way, it is possible to add features to existing libraries supporting feature guards based on import choice.
 
 ### Semantics
 
