@@ -63,13 +63,13 @@ export function foo () {
 } when feature.featureB
 
 
-when feature.featureA {
+{
     console.log('featureA enabled');
-}
+} when feature.featureA
 
-when feature.featureA {
+{
     console.log('featureB enabled');
-}
+} when feature.featureA
 ```
 
 Usage:
