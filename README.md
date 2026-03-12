@@ -128,9 +128,9 @@ import { foo } from './module.js';
 
 By importing `foo`, it is clear that the `featureB` feature must be enabled by the declaration, therefore it is auto-enabled.
 
-As a result, `'featureA enabled'` is logged when executing the module.
+As a result, `'featureB enabled'` is logged when executing the module.
 
-This way, it is possible to add features to existing libraries supporting feature guards based on import choice.
+This way, it is possible to add features to existing libraries supporting feature guards based on the consumer import choice.
 
 ### Semantics
 
