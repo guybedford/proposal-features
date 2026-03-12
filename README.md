@@ -48,7 +48,7 @@ Once the module is loaded it cannot be loaded with new features later on as it h
 
 ### Feature guards
 
-A new feature guard static syntax is supported - `when <name>`. The features provided by a given module are the union of these static guard names.
+A new feature guard static syntax is supported - via a `when <name>` **strawman syntax for now**. The features provided by a given module are the union of these static guard names.
 
 Guards apply to static imports, static exports and blocks.
 
